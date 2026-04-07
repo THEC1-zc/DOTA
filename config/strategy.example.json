@@ -1,0 +1,5 @@
+{
+  "preferredHeroClass": "mage",
+  "laneFocus": "mid",
+  "behavior": "Defend lanes with damaged allied structures, otherwise push the most favorable lane."
+}

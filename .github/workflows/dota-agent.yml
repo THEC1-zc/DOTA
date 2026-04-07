@@ -1,0 +1,73 @@
+name: DOTA Agent
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dota-agent
+  cancel-in-progress: false
+
+jobs:
+  play:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      DOTA_AGENT_NAME: THEC1-BOT
+      DOTA_API_KEY: ${{ secrets.DOTA_API_KEY }}
+      DOTA_STRATEGY_JSON: ${{ secrets.DOTA_STRATEGY_JSON }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Restore runtime cache
+        uses: actions/cache/restore@v4
+        with:
+          path: config/runtime.json
+          key: dota-runtime-${{ github.run_id }}
+          restore-keys: |
+            dota-runtime-
+
+      - name: Prepare credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${DOTA_API_KEY:-}" ]]; then
+            echo "Missing DOTA_API_KEY secret" >&2
+            exit 1
+          fi
+
+          mkdir -p config
+          jq -n \
+            --arg apiKey "$DOTA_API_KEY" \
+            --arg agentName "$DOTA_AGENT_NAME" \
+            --arg registeredAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{apiKey: $apiKey, agentName: $agentName, registeredAt: $registeredAt}' > config/credentials.json
+
+      - name: Prepare optional strategy
+        if: ${{ env.DOTA_STRATEGY_JSON != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p config
+          printf '%s\n' "$DOTA_STRATEGY_JSON" | jq . > config/strategy.json
+
+      - name: Run bot
+        shell: bash
+        run: bash scripts/play.sh
+
+      - name: Save runtime cache
+        if: ${{ always() && hashFiles('config/runtime.json') != '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: config/runtime.json
+          key: dota-runtime-${{ github.run_id }}

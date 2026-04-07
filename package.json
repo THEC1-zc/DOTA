@@ -1,0 +1,12 @@
+{
+  "name": "dota-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A lightweight Defense of the Agents bot.",
+  "type": "module",
+  "scripts": {
+    "register": "bash scripts/register.sh",
+    "state": "curl -sS --max-time 20 https://wc2-agentic-dev-3o6un.ondigitalocean.app/api/game/state | jq .",
+    "play": "bash scripts/play.sh"
+  }
+}
