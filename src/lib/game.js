@@ -55,6 +55,17 @@ export async function saveCredentials(credentials) {
   return writeJson(CREDENTIALS_PATH, credentials);
 }
 
+export function isValidGameState(state) {
+  return Boolean(
+    state &&
+    typeof state === "object" &&
+    state.lanes &&
+    Array.isArray(state.towers) &&
+    state.bases &&
+    Array.isArray(state.heroes),
+  );
+}
+
 function laneEntries(state, faction) {
   const enemyFaction = faction === "human" ? "orc" : "human";
   return Object.entries(state.lanes).map(([lane, info]) => {
@@ -162,6 +173,10 @@ function shouldRecall(hero, runtime) {
 }
 
 export function decideDeployment(state, credentials, strategy, runtime = {}) {
+  if (!isValidGameState(state)) {
+    throw new Error("Invalid game state payload: expected lanes, towers, bases, and heroes.");
+  }
+
   const hero = state.heroes.find((candidate) => candidate.name === credentials.agentName);
 
   if (!hero) {

@@ -1,5 +1,6 @@
 import {
   decideDeployment,
+  isValidGameState,
   loadCredentials,
   loadRuntime,
   loadStrategy,
@@ -27,6 +28,12 @@ const [strategy, runtime, state, response] = await Promise.all([
   readJson(statePath),
   responsePath ? readJson(responsePath, {}) : {},
 ]);
+
+if (!isValidGameState(state)) {
+  console.error("Invalid game state payload.");
+  console.error(JSON.stringify(state, null, 2));
+  process.exit(1);
+}
 
 const decision = decideDeployment(state, credentials, strategy, runtime);
 
