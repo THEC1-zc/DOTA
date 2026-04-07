@@ -1,6 +1,6 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-07T20:07:25Z",
+  "updatedAt": "2026-04-07T21:01:57Z",
   "leaderboard": {
     "name": "THEC1-BOT",
     "games_won": 0,
@@ -27,7 +27,7 @@
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-07T20:07:25.649Z",
+    "lastPlayedAt": "2026-04-07T21:01:57.943Z",
     "lastDecision": "Initial deployment to mid as mage"
   }
 }
