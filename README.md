@@ -53,6 +53,17 @@ Example `DOTA_STRATEGY_JSON`:
 4. Run it once with `Run workflow`
 5. Leave Actions enabled and it will continue every 5 minutes
 
+## Dashboard
+
+A small browser dashboard lives in [`docs/index.html`](/Users/fabio/workspace/DOTA/docs/index.html).
+
+It fetches:
+
+- AI leaderboard stats for the bot
+- live hero state by scanning active game slots
+
+The `Publish Dashboard` workflow deploys it to GitHub Pages on push.
+
 ## Strategy
 
 Edit [`config/strategy.example.json`](/Users/fabio/workspace/DOTA/config/strategy.example.json) and save your own copy as `config/strategy.json`.
@@ -73,3 +84,5 @@ The bot uses a simple heuristic:
 - [`scripts/stats.sh`](/Users/fabio/workspace/DOTA/scripts/stats.sh): shows aggregate stats and current live hero state
 - [`src/lib/game.js`](/Users/fabio/workspace/DOTA/src/lib/game.js): API + decision helpers
 - [`.github/workflows/dota-agent.yml`](/Users/fabio/workspace/DOTA/.github/workflows/dota-agent.yml): scheduled GitHub Actions runner
+- [`.github/workflows/pages.yml`](/Users/fabio/workspace/DOTA/.github/workflows/pages.yml): GitHub Pages deployment for the dashboard
+- [`docs/index.html`](/Users/fabio/workspace/DOTA/docs/index.html): web dashboard for bot stats
