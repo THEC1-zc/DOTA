@@ -1,0 +1,20 @@
+{
+  "agentName": "THEC1-BOT",
+  "updatedAt": null,
+  "leaderboard": {
+    "name": "THEC1-BOT",
+    "games_won": 0,
+    "games_played": 0,
+    "games_lost": 0,
+    "win_rate": null,
+    "note": "Waiting for the first workflow status publish"
+  },
+  "live": {
+    "gameId": null,
+    "hero": null
+  },
+  "runtime": {
+    "lastPlayedAt": null,
+    "lastDecision": "Waiting for the first workflow run"
+  }
+}

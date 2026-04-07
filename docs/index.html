@@ -18,55 +18,38 @@
         --bad: #f85149;
       }
 
-      * {
-        box-sizing: border-box;
-      }
-
+      * { box-sizing: border-box; }
       body {
         margin: 0;
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         background: var(--bg);
         color: var(--text);
       }
-
       main {
         max-width: 960px;
         margin: 0 auto;
         padding: 24px 16px 40px;
       }
-
-      h1,
-      h2,
-      p {
-        margin: 0;
-      }
-
-      .layout {
-        display: grid;
-        gap: 16px;
-      }
-
+      h1, h2, p { margin: 0; }
+      .layout { display: grid; gap: 16px; }
       .panel {
         background: var(--panel);
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 16px;
       }
-
       .topbar {
         display: grid;
         grid-template-columns: 1fr auto auto;
         gap: 12px;
         align-items: end;
       }
-
       label {
         display: grid;
         gap: 8px;
         color: var(--muted);
         font-size: 14px;
       }
-
       input {
         width: 100%;
         background: #0b1117;
@@ -76,7 +59,6 @@
         padding: 10px 12px;
         font: inherit;
       }
-
       button {
         background: var(--accent);
         color: #111;
@@ -87,49 +69,53 @@
         font-weight: 600;
         cursor: pointer;
       }
-
       button.secondary {
         background: transparent;
         color: var(--text);
         border: 1px solid var(--border);
       }
-
       .headline {
         display: grid;
         gap: 8px;
         margin-bottom: 16px;
       }
-
       .headline p {
         color: var(--muted);
         line-height: 1.5;
       }
-
       .stats {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 12px;
       }
-
-      .stat {
+      .hero-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .stat, .hero-item {
         border: 1px solid var(--border);
         border-radius: 8px;
         padding: 14px;
         background: #111922;
       }
-
-      .stat-label {
+      .stat-label, .hero-item strong {
         color: var(--muted);
         font-size: 13px;
         margin-bottom: 8px;
+        display: block;
+        font-weight: 500;
       }
-
       .stat-value {
         font-size: 28px;
         font-weight: 700;
         line-height: 1.1;
       }
-
+      .hero-item span {
+        display: block;
+        font-size: 18px;
+        font-weight: 600;
+      }
       .section-head {
         display: flex;
         justify-content: space-between;
@@ -137,45 +123,15 @@
         margin-bottom: 14px;
         gap: 12px;
       }
-
       .section-head span {
         color: var(--muted);
         font-size: 14px;
       }
-
-      .hero-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .hero-item {
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 14px;
-        background: #111922;
-      }
-
-      .hero-item strong {
-        display: block;
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 500;
-        margin-bottom: 8px;
-      }
-
-      .hero-item span {
-        display: block;
-        font-size: 18px;
-        font-weight: 600;
-      }
-
       .ability-list {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
       }
-
       .ability {
         border: 1px solid var(--border);
         border-radius: 999px;
@@ -184,34 +140,15 @@
         background: #111922;
         font-size: 13px;
       }
-
-      .status {
-        font-size: 14px;
-        color: var(--muted);
-      }
-
-      .status.good {
-        color: var(--good);
-      }
-
-      .status.warn {
-        color: var(--warn);
-      }
-
-      .status.bad {
-        color: var(--bad);
-      }
-
+      .status { font-size: 14px; color: var(--muted); }
+      .status.good { color: var(--good); }
+      .status.warn { color: var(--warn); }
+      .status.bad { color: var(--bad); }
       .mono {
-        font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       }
-
       @media (max-width: 820px) {
-        .topbar,
-        .stats,
-        .hero-grid {
-          grid-template-columns: 1fr;
-        }
+        .topbar, .stats, .hero-grid { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -219,7 +156,7 @@
     <main>
       <div class="headline">
         <h1>DOTA Bot Dashboard</h1>
-        <p>Track leaderboard stats, current live hero state, and the game slot where the bot is currently fighting.</p>
+        <p>Track the latest published stats and hero snapshot generated by the bot automation.</p>
       </div>
 
       <div class="layout">
@@ -227,7 +164,7 @@
           <div class="topbar">
             <label>
               Bot name
-              <input id="agentName" value="THEC1-BOT" />
+              <input id="agentName" value="THEC1-BOT" disabled />
             </label>
             <button id="refreshButton">Refresh</button>
             <button id="autoButton" class="secondary">Auto: On</button>
@@ -237,58 +174,39 @@
         <section class="panel">
           <div class="section-head">
             <h2>Leaderboard</h2>
-            <span id="lastUpdated">Waiting for first refresh</span>
+            <span id="lastUpdated">Waiting for published status</span>
           </div>
           <div class="stats">
-            <div class="stat">
-              <div class="stat-label">Games Played</div>
-              <div class="stat-value" id="gamesPlayed">0</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Wins</div>
-              <div class="stat-value" id="gamesWon">0</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Losses</div>
-              <div class="stat-value" id="gamesLost">0</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Win Rate</div>
-              <div class="stat-value" id="winRate">n/a</div>
-            </div>
+            <div class="stat"><div class="stat-label">Games Played</div><div class="stat-value" id="gamesPlayed">0</div></div>
+            <div class="stat"><div class="stat-label">Wins</div><div class="stat-value" id="gamesWon">0</div></div>
+            <div class="stat"><div class="stat-label">Losses</div><div class="stat-value" id="gamesLost">0</div></div>
+            <div class="stat"><div class="stat-label">Win Rate</div><div class="stat-value" id="winRate">n/a</div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-head">
+            <h2>Runtime</h2>
+          </div>
+          <div class="hero-grid">
+            <div class="hero-item"><strong>Last Played</strong><span id="lastPlayedAt" class="mono">-</span></div>
+            <div class="hero-item"><strong>Last Decision</strong><span id="lastDecision">-</span></div>
+            <div class="hero-item"><strong>Published</strong><span id="publishedAt" class="mono">-</span></div>
           </div>
         </section>
 
         <section class="panel">
           <div class="section-head">
             <h2>Live Hero</h2>
-            <span id="liveStatus" class="status">Searching active games</span>
+            <span id="liveStatus" class="status">Waiting for published status</span>
           </div>
           <div class="hero-grid">
-            <div class="hero-item">
-              <strong>Game</strong>
-              <span id="gameId" class="mono">-</span>
-            </div>
-            <div class="hero-item">
-              <strong>Faction</strong>
-              <span id="faction">-</span>
-            </div>
-            <div class="hero-item">
-              <strong>Class</strong>
-              <span id="heroClass">-</span>
-            </div>
-            <div class="hero-item">
-              <strong>Lane</strong>
-              <span id="lane">-</span>
-            </div>
-            <div class="hero-item">
-              <strong>Level</strong>
-              <span id="level">-</span>
-            </div>
-            <div class="hero-item">
-              <strong>HP</strong>
-              <span id="hp">-</span>
-            </div>
+            <div class="hero-item"><strong>Game</strong><span id="gameId" class="mono">-</span></div>
+            <div class="hero-item"><strong>Faction</strong><span id="faction">-</span></div>
+            <div class="hero-item"><strong>Class</strong><span id="heroClass">-</span></div>
+            <div class="hero-item"><strong>Lane</strong><span id="lane">-</span></div>
+            <div class="hero-item"><strong>Level</strong><span id="level">-</span></div>
+            <div class="hero-item"><strong>HP</strong><span id="hp">-</span></div>
           </div>
           <div style="margin-top: 16px;">
             <div class="section-head" style="margin-bottom: 10px;">
@@ -301,10 +219,7 @@
     </main>
 
     <script>
-      const API_BASE = "https://wc2-agentic-dev-3o6un.ondigitalocean.app/api";
-      const MAX_GAMES_TO_SCAN = 5;
       const REFRESH_MS = 60000;
-
       const elements = {
         agentName: document.getElementById("agentName"),
         refreshButton: document.getElementById("refreshButton"),
@@ -322,6 +237,9 @@
         level: document.getElementById("level"),
         hp: document.getElementById("hp"),
         abilities: document.getElementById("abilities"),
+        lastPlayedAt: document.getElementById("lastPlayedAt"),
+        lastDecision: document.getElementById("lastDecision"),
+        publishedAt: document.getElementById("publishedAt"),
       };
 
       let autoRefresh = true;
@@ -330,20 +248,26 @@
       function setAggregateStats(entry) {
         const gamesPlayed = entry?.games_played ?? 0;
         const gamesWon = entry?.games_won ?? 0;
-        const gamesLost = Math.max(0, gamesPlayed - gamesWon);
-        const winRate = gamesPlayed > 0 ? `${((gamesWon / gamesPlayed) * 100).toFixed(1)}%` : "n/a";
-
+        const gamesLost = entry?.games_lost ?? Math.max(0, gamesPlayed - gamesWon);
+        const winRate = entry?.win_rate == null ? "n/a" : `${Number(entry.win_rate).toFixed(1)}%`;
         elements.gamesPlayed.textContent = String(gamesPlayed);
         elements.gamesWon.textContent = String(gamesWon);
         elements.gamesLost.textContent = String(gamesLost);
         elements.winRate.textContent = winRate;
       }
 
+      function setRuntime(status) {
+        elements.agentName.value = status.agentName ?? "THEC1-BOT";
+        elements.lastPlayedAt.textContent = status.runtime?.lastPlayedAt ?? "-";
+        elements.lastDecision.textContent = status.runtime?.lastDecision ?? "-";
+        elements.publishedAt.textContent = status.updatedAt ?? "-";
+      }
+
       function setLiveState(hero, gameId) {
         if (!hero) {
-          elements.liveStatus.textContent = "Bot not found in active game scan";
+          elements.liveStatus.textContent = "No live hero snapshot in latest published status";
           elements.liveStatus.className = "status warn";
-          elements.gameId.textContent = "-";
+          elements.gameId.textContent = gameId ?? "-";
           elements.faction.textContent = "-";
           elements.heroClass.textContent = "-";
           elements.lane.textContent = "-";
@@ -353,9 +277,9 @@
           return;
         }
 
-        elements.liveStatus.textContent = hero.alive ? "Hero found and alive" : "Hero found but currently dead";
+        elements.liveStatus.textContent = hero.alive ? "Hero snapshot found and alive" : "Hero snapshot found but dead";
         elements.liveStatus.className = hero.alive ? "status good" : "status bad";
-        elements.gameId.textContent = String(gameId);
+        elements.gameId.textContent = String(gameId ?? "-");
         elements.faction.textContent = hero.faction ?? "-";
         elements.heroClass.textContent = hero.class ?? "-";
         elements.lane.textContent = hero.lane ?? "-";
@@ -381,53 +305,23 @@
       }
 
       async function fetchJson(url) {
-        const response = await fetch(url);
+        const response = await fetch(url, { cache: "no-store" });
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
         return response.json();
       }
 
-      async function fetchLeaderboardEntry(agentName) {
-        const entries = await fetchJson(`${API_BASE}/leaderboard?type=ai`);
-        return entries.find((entry) => entry.name === agentName) ?? null;
-      }
-
-      async function findLiveHero(agentName) {
-        for (let gameId = 1; gameId <= MAX_GAMES_TO_SCAN; gameId += 1) {
-          try {
-            const state = await fetchJson(`${API_BASE}/game/state?game=${gameId}`);
-            const heroes = Array.isArray(state.heroes) ? state.heroes : [];
-            const hero = heroes.find((candidate) => candidate.name === agentName);
-            if (hero) {
-              return { hero, gameId };
-            }
-          } catch (error) {
-            // Ignore a single bad game slot and keep scanning.
-          }
-        }
-
-        return { hero: null, gameId: null };
-      }
-
       async function refresh() {
-        const agentName = elements.agentName.value.trim();
-        if (!agentName) {
-          return;
-        }
-
         elements.refreshButton.disabled = true;
         elements.liveStatus.textContent = "Refreshing";
         elements.liveStatus.className = "status";
 
         try {
-          const [leaderboardEntry, live] = await Promise.all([
-            fetchLeaderboardEntry(agentName),
-            findLiveHero(agentName),
-          ]);
-
-          setAggregateStats(leaderboardEntry);
-          setLiveState(live.hero, live.gameId);
+          const status = await fetchJson("./status.json");
+          setRuntime(status);
+          setAggregateStats(status.leaderboard);
+          setLiveState(status.live?.hero ?? null, status.live?.gameId ?? null);
           elements.lastUpdated.textContent = `Updated ${new Date().toLocaleString()}`;
         } catch (error) {
           elements.liveStatus.textContent = `Refresh failed: ${error.message}`;
@@ -442,7 +336,6 @@
           clearInterval(timerId);
           timerId = null;
         }
-
         if (autoRefresh) {
           timerId = setInterval(refresh, REFRESH_MS);
         }
@@ -454,7 +347,6 @@
         elements.autoButton.textContent = autoRefresh ? "Auto: On" : "Auto: Off";
         scheduleRefresh();
       });
-      elements.agentName.addEventListener("change", refresh);
 
       scheduleRefresh();
       refresh();
