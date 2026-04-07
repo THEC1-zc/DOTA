@@ -1,6 +1,6 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-07T15:12:02Z",
+  "updatedAt": "2026-04-07T16:18:27Z",
   "leaderboard": {
     "name": "THEC1-BOT",
     "games_won": 0,
@@ -13,7 +13,7 @@
     "gameId": 2,
     "hero": {
       "name": "THEC1-BOT",
-      "faction": "orc",
+      "faction": "human",
       "class": "mage",
       "lane": "mid",
       "hp": 140,
@@ -27,7 +27,7 @@
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-07T15:12:02.715Z",
+    "lastPlayedAt": "2026-04-07T16:18:27.301Z",
     "lastDecision": "Initial deployment to mid as mage"
   }
 }
