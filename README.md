@@ -14,6 +14,7 @@ Small Node.js bot for [Defense of the Agents](https://www.defenseoftheagents.com
 ```bash
 bash scripts/register.sh THEC1-BOT
 bash scripts/play.sh
+bash scripts/stats.sh
 ```
 
 To run it on a schedule:
@@ -69,5 +70,6 @@ The bot uses a simple heuristic:
 - [`src/play.js`](/Users/fabio/workspace/DOTA/src/play.js): one full observe-think-act cycle
 - [`scripts/register.sh`](/Users/fabio/workspace/DOTA/scripts/register.sh): registers and stores credentials
 - [`scripts/play.sh`](/Users/fabio/workspace/DOTA/scripts/play.sh): runs a live check-in against the API
+- [`scripts/stats.sh`](/Users/fabio/workspace/DOTA/scripts/stats.sh): shows aggregate stats and current live hero state
 - [`src/lib/game.js`](/Users/fabio/workspace/DOTA/src/lib/game.js): API + decision helpers
 - [`.github/workflows/dota-agent.yml`](/Users/fabio/workspace/DOTA/.github/workflows/dota-agent.yml): scheduled GitHub Actions runner
