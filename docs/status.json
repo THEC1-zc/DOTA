@@ -1,6 +1,6 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-07T13:58:40Z",
+  "updatedAt": "2026-04-07T15:12:02Z",
   "leaderboard": {
     "name": "THEC1-BOT",
     "games_won": 0,
@@ -16,27 +16,18 @@
       "faction": "orc",
       "class": "mage",
       "lane": "mid",
-      "hp": 241,
-      "maxHp": 266,
+      "hp": 140,
+      "maxHp": 140,
       "alive": true,
-      "level": 7,
-      "xp": 50,
-      "xpToNext": 1400,
-      "abilities": [
-        {
-          "id": "raise_skeleton",
-          "level": 1
-        },
-        {
-          "id": "tornado",
-          "level": 1
-        }
-      ]
+      "level": 1,
+      "xp": 0,
+      "xpToNext": 200,
+      "abilities": []
     }
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-07T13:58:40.256Z",
-    "lastDecision": "hold mid, skill tornado"
+    "lastPlayedAt": "2026-04-07T15:12:02.715Z",
+    "lastDecision": "Initial deployment to mid as mage"
   }
 }
