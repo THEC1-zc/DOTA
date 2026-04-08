@@ -27,7 +27,7 @@ To run it on a schedule:
 
 This repo includes a workflow that runs automatically every 5 minutes and can also be started manually.
 
-Important: GitHub Actions cron does not support 2-minute intervals. The minimum practical schedule is every 5 minutes.
+Important: GitHub Actions cron does not support 2-minute intervals. To compensate, each scheduled workflow run performs multiple in-run check-ins roughly every 2 minutes.
 
 ### Repository secrets
 

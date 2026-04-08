@@ -29,14 +29,6 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Restore runtime cache
-        uses: actions/cache/restore@v4
-        with:
-          path: config/runtime.json
-          key: dota-runtime-${{ github.run_id }}
-          restore-keys: |
-            dota-runtime-
-
       - name: Prepare credentials
         shell: bash
         run: |
@@ -53,6 +45,15 @@ jobs:
             --arg registeredAt "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             '{apiKey: $apiKey, agentName: $agentName, registeredAt: $registeredAt}' > config/credentials.json
 
+      - name: Restore runtime from published status
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p config
+          if [[ -f docs/status.json ]]; then
+            jq '.runtime // {}' docs/status.json > config/runtime.json
+          fi
+
       - name: Prepare optional strategy
         if: ${{ env.DOTA_STRATEGY_JSON != '' }}
         shell: bash
@@ -61,9 +62,9 @@ jobs:
           mkdir -p config
           printf '%s\n' "$DOTA_STRATEGY_JSON" | jq . > config/strategy.json
 
-      - name: Run bot
+      - name: Run bot session
         shell: bash
-        run: bash scripts/play.sh
+        run: bash scripts/run-session.sh 3 110
 
       - name: Build dashboard status
         shell: bash
@@ -82,10 +83,3 @@ jobs:
           git add docs/status.json
           git commit -m "Update bot dashboard status"
           git push
-
-      - name: Save runtime cache
-        if: ${{ always() && hashFiles('config/runtime.json') != '' }}
-        uses: actions/cache/save@v4
-        with:
-          path: config/runtime.json
-          key: dota-runtime-${{ github.run_id }}
