@@ -173,28 +173,15 @@
 
         <section class="panel">
           <div class="section-head">
-            <h2>Tracked Match Stats</h2>
+            <h2>Official Leaderboard</h2>
             <span id="lastUpdated">Waiting for published status</span>
           </div>
           <div class="stats">
+            <div class="stat"><div class="stat-label">Current Rank</div><div class="stat-value" id="currentRank">-</div></div>
             <div class="stat"><div class="stat-label">Games Played</div><div class="stat-value" id="gamesPlayed">0</div></div>
             <div class="stat"><div class="stat-label">Wins</div><div class="stat-value" id="gamesWon">0</div></div>
             <div class="stat"><div class="stat-label">Losses</div><div class="stat-value" id="gamesLost">0</div></div>
             <div class="stat"><div class="stat-label">Win Rate</div><div class="stat-value" id="winRate">n/a</div></div>
-          </div>
-          <div style="margin-top: 12px; color: var(--muted); font-size: 13px;">
-            These are tracked by this bot workflow, even before the official AI leaderboard includes the bot.
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="section-head">
-            <h2>Official Leaderboard</h2>
-          </div>
-          <div class="hero-grid">
-            <div class="hero-item"><strong>Official Games</strong><span id="officialGames">0</span></div>
-            <div class="hero-item"><strong>Official Wins</strong><span id="officialWins">0</span></div>
-            <div class="hero-item"><strong>Official Win Rate</strong><span id="officialWinRate">n/a</span></div>
           </div>
         </section>
 
@@ -239,6 +226,7 @@
         refreshButton: document.getElementById("refreshButton"),
         autoButton: document.getElementById("autoButton"),
         lastUpdated: document.getElementById("lastUpdated"),
+        currentRank: document.getElementById("currentRank"),
         gamesPlayed: document.getElementById("gamesPlayed"),
         gamesWon: document.getElementById("gamesWon"),
         gamesLost: document.getElementById("gamesLost"),
@@ -254,32 +242,22 @@
         lastPlayedAt: document.getElementById("lastPlayedAt"),
         lastDecision: document.getElementById("lastDecision"),
         publishedAt: document.getElementById("publishedAt"),
-        officialGames: document.getElementById("officialGames"),
-        officialWins: document.getElementById("officialWins"),
-        officialWinRate: document.getElementById("officialWinRate"),
       };
 
       let autoRefresh = true;
       let timerId = null;
 
-      function setTrackedStats(entry) {
-        const gamesPlayed = entry?.tracked_games_played ?? 0;
-        const gamesWon = entry?.tracked_games_won ?? 0;
-        const gamesLost = entry?.tracked_games_lost ?? Math.max(0, gamesPlayed - gamesWon);
-        const winRate = entry?.tracked_win_rate == null ? "n/a" : `${Number(entry.tracked_win_rate).toFixed(1)}%`;
+      function setOfficialStats(entry) {
+        const rank = entry?.rank ?? "-";
+        const gamesPlayed = entry?.games_played ?? 0;
+        const gamesWon = entry?.games_won ?? 0;
+        const gamesLost = entry?.games_lost ?? Math.max(0, gamesPlayed - gamesWon);
+        const winRate = entry?.win_rate == null ? "n/a" : `${Number(entry.win_rate).toFixed(1)}%`;
+        elements.currentRank.textContent = String(rank);
         elements.gamesPlayed.textContent = String(gamesPlayed);
         elements.gamesWon.textContent = String(gamesWon);
         elements.gamesLost.textContent = String(gamesLost);
         elements.winRate.textContent = winRate;
-      }
-
-      function setOfficialStats(entry) {
-        const gamesPlayed = entry?.games_played ?? 0;
-        const gamesWon = entry?.games_won ?? 0;
-        const winRate = entry?.win_rate == null ? "n/a" : `${Number(entry.win_rate).toFixed(1)}%`;
-        elements.officialGames.textContent = String(gamesPlayed);
-        elements.officialWins.textContent = String(gamesWon);
-        elements.officialWinRate.textContent = winRate;
       }
 
       function setRuntime(status) {
@@ -346,7 +324,6 @@
         try {
           const status = await fetchJson("./status.json");
           setRuntime(status);
-          setTrackedStats(status.tracked);
           setOfficialStats(status.leaderboard);
           setLiveState(status.live?.hero ?? null, status.live?.gameId ?? null);
           elements.lastUpdated.textContent = `Updated ${new Date().toLocaleString()}`;
