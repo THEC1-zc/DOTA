@@ -8,9 +8,9 @@ const STRATEGY_PATH = path.join(CONFIG_DIR, "strategy.json");
 const RUNTIME_PATH = path.join(CONFIG_DIR, "runtime.json");
 
 const CLASS_ABILITIES = {
-  melee: ["divine_shield", "cleave", "thorns", "fortitude", "fury"],
+  melee: ["divine_shield", "fortitude", "thorns", "fury", "cleave"],
   ranged: ["volley", "critical_strike", "bloodlust", "fortitude", "fury"],
-  mage: ["tornado", "fireball", "raise_skeleton", "fortitude", "fury"],
+  mage: ["fireball", "tornado", "fury", "raise_skeleton", "fortitude"],
 };
 
 export async function ensureConfigDir() {
@@ -75,6 +75,8 @@ function laneEntries(state, faction) {
     const enemyTower = state.towers.find((tower) => tower.faction === enemyFaction && tower.lane === lane);
     const towerRatio = alliedTower?.maxHp ? alliedTower.hp / alliedTower.maxHp : 1;
     const enemyTowerRatio = enemyTower?.maxHp ? enemyTower.hp / enemyTower.maxHp : 1;
+    const alliedHeroes = state.heroes.filter((hero) => hero.faction === faction && hero.lane === lane && hero.alive).length;
+    const enemyHeroes = state.heroes.filter((hero) => hero.faction === enemyFaction && hero.lane === lane && hero.alive).length;
 
     return {
       lane,
@@ -85,6 +87,8 @@ function laneEntries(state, faction) {
       enemyTower,
       towerRatio,
       enemyTowerRatio,
+      alliedHeroes,
+      enemyHeroes,
     };
   });
 }
@@ -110,66 +114,89 @@ function chooseAbility(heroClass, choices, learned) {
   })[0];
 }
 
-function chooseInitialLane(strategy) {
-  return strategy.laneFocus ?? "mid";
-}
-
 function chooseInitialClass(strategy) {
   return strategy.preferredHeroClass ?? "mage";
 }
 
+function chooseRespawnLane(state, faction) {
+  const lanes = laneEntries(state, faction);
+  return [...lanes].sort((left, right) => {
+    if (left.enemyHeroes !== right.enemyHeroes) {
+      return left.enemyHeroes - right.enemyHeroes;
+    }
+
+    const leftPressure = respawnPressureScore(left);
+    const rightPressure = respawnPressureScore(right);
+    return rightPressure - leftPressure;
+  })[0]?.lane ?? "mid";
+}
+
 function chooseLaneForHero(state, hero, strategy) {
   const lanes = laneEntries(state, hero.faction);
-  const defendCandidate = [...lanes].sort((a, b) => {
-    const aPressure = bPressureScore(a);
-    const bPressure = bPressureScore(b);
-    return bPressure - aPressure;
+  const defendCandidate = [...lanes].sort((left, right) => {
+    const leftPressure = sufferingScore(left);
+    const rightPressure = sufferingScore(right);
+    return rightPressure - leftPressure;
   })[0];
 
-  const pushCandidate = [...lanes].sort((a, b) => {
-    const aValue = pushScore(a);
-    const bValue = pushScore(b);
-    return bValue - aValue;
+  const pushCandidate = [...lanes].sort((left, right) => {
+    const leftValue = pushScore(left);
+    const rightValue = pushScore(right);
+    return rightValue - leftValue;
   })[0];
 
   const ownBaseRatio = state.bases[hero.faction].hp / state.bases[hero.faction].maxHp;
-  if (ownBaseRatio < 0.45 || bPressureScore(defendCandidate) > 18) {
+  if (ownBaseRatio < 0.45 || sufferingScore(defendCandidate) > 14) {
     return defendCandidate.lane;
   }
 
-  if (strategy.laneFocus) {
+  if (strategy.laneFocus && strategy.laneFocus !== "adaptive") {
     const focused = lanes.find((lane) => lane.lane === strategy.laneFocus);
-    if (focused && bPressureScore(focused) < 10) {
+    if (focused && sufferingScore(focused) < 10) {
       return focused.lane;
     }
+  }
+
+  if (defendCandidate.lane !== hero.lane && sufferingScore(defendCandidate) - sufferingScore(lanes.find((lane) => lane.lane === hero.lane) ?? defendCandidate) > 5) {
+    return defendCandidate.lane;
   }
 
   return pushCandidate.lane;
 }
 
-function bPressureScore(lane) {
+function sufferingScore(lane) {
   const deficit = lane.enemyUnits - lane.allyUnits;
   const frontlinePenalty = lane.frontline < 0 ? Math.abs(lane.frontline) / 4 : 0;
   const towerPenalty = lane.alliedTower?.alive === false ? 12 : (1 - lane.towerRatio) * 10;
-  return deficit * 3 + frontlinePenalty + towerPenalty;
+  const enemyHeroPenalty = lane.enemyHeroes * 4;
+  const alliedHeroRelief = lane.alliedHeroes * 2;
+  return deficit * 3 + frontlinePenalty + towerPenalty + enemyHeroPenalty - alliedHeroRelief;
+}
+
+function respawnPressureScore(lane) {
+  const frontlinePenalty = lane.frontline < 0 ? Math.abs(lane.frontline) : 0;
+  const unitPressure = Math.max(0, lane.enemyUnits - lane.allyUnits) * 4;
+  return frontlinePenalty + unitPressure;
 }
 
 function pushScore(lane) {
   const unitLead = lane.allyUnits - lane.enemyUnits;
   const frontlineBonus = lane.frontline > 0 ? lane.frontline / 5 : lane.frontline / 10;
   const enemyTowerBonus = lane.enemyTower?.alive === false ? 8 : (1 - lane.enemyTowerRatio) * 10;
-  return unitLead * 2 + frontlineBonus + enemyTowerBonus;
+  const lowEnemyHeroBonus = Math.max(0, 3 - lane.enemyHeroes) * 2;
+  return unitLead * 2 + frontlineBonus + enemyTowerBonus + lowEnemyHeroBonus;
 }
 
-function shouldRecall(hero, runtime) {
+function shouldRecall(hero, runtime, strategy) {
   if (!hero.alive || hero.maxHp <= 0) {
     return false;
   }
 
   const hpRatio = hero.hp / hero.maxHp;
+  const threshold = strategy.recallHpThreshold ?? 0.5;
   const lastRecallAt = runtime.lastRecallAt ?? 0;
   const cooldownMs = 120000;
-  return hpRatio <= 0.22 && Date.now() - lastRecallAt > cooldownMs;
+  return hpRatio <= threshold && Date.now() - lastRecallAt > cooldownMs;
 }
 
 export function decideDeployment(state, credentials, strategy, runtime = {}) {
@@ -180,7 +207,8 @@ export function decideDeployment(state, credentials, strategy, runtime = {}) {
   const hero = state.heroes.find((candidate) => candidate.name === credentials.agentName);
 
   if (!hero) {
-    const heroLane = chooseInitialLane(strategy);
+    const assumedFaction = runtime.lastKnownFaction ?? "human";
+    const heroLane = chooseRespawnLane(state, assumedFaction);
     const heroClass = chooseInitialClass(strategy);
     return {
       payload: {
@@ -195,9 +223,9 @@ export function decideDeployment(state, credentials, strategy, runtime = {}) {
 
   const abilityChoice = chooseAbility(hero.class, hero.abilityChoices, hero.abilities);
   const heroLane = chooseLaneForHero(state, hero, strategy);
-  const runtimeUpdate = { ...runtime };
+  const runtimeUpdate = { ...runtime, lastKnownFaction: hero.faction };
 
-  if (shouldRecall(hero, runtime)) {
+  if (shouldRecall(hero, runtime, strategy)) {
     runtimeUpdate.lastRecallAt = Date.now();
     return {
       payload: {

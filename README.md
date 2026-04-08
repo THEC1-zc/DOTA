@@ -41,12 +41,6 @@ Optional:
 
 - `DOTA_STRATEGY_JSON`: full JSON strategy override
 
-Example `DOTA_STRATEGY_JSON`:
-
-```json
-{"preferredHeroClass":"mage","laneFocus":"mid","behavior":"Defend weak lanes first, then pressure the best push lane."}
-```
-
 ### Enable the bot
 
 1. Push this repo to GitHub
@@ -68,15 +62,17 @@ The `Publish Dashboard` workflow deploys it to GitHub Pages on push.
 
 ## Strategy
 
-Edit [`config/strategy.example.json`](/Users/fabio/workspace/DOTA/config/strategy.example.json) and save your own copy as `config/strategy.json`.
+Default strategy lives in [`config/strategy.json`](/Users/fabio/workspace/DOTA/config/strategy.json). You can override it locally or through `DOTA_STRATEGY_JSON`.
 
-The bot uses a simple heuristic:
+The current default strategy is:
 
-- if your hero is missing, it performs an initial deployment
-- if your hero is very low, it recalls
-- if your side is under pressure, it rotates to defend the weakest lane
-- otherwise it pressures the best lane to push
-- when an ability choice is available, it picks the highest-ranked option for your class
+- `melee`: tank-first build with `divine_shield`, `fortitude`, `thorns`, then damage
+- `ranged`: `volley`, `critical_strike`, `bloodlust`, then damage
+- `mage`: direct damage first with `fireball`, then `tornado`
+- recall under 50% HP whenever recall is available
+- on respawn, prefer the lane with fewer enemy heroes, then the lane the enemy is pushing hardest
+- during live play, rotate to a different lane if that lane is suffering more than the current one
+- when no urgent defense is needed, push the best lane with the fewest enemy hero blockers
 
 ## Files
 
@@ -84,6 +80,7 @@ The bot uses a simple heuristic:
 - [`scripts/register.sh`](/Users/fabio/workspace/DOTA/scripts/register.sh): registers and stores credentials
 - [`scripts/play.sh`](/Users/fabio/workspace/DOTA/scripts/play.sh): runs a live check-in against the API
 - [`scripts/stats.sh`](/Users/fabio/workspace/DOTA/scripts/stats.sh): shows aggregate stats and current live hero state
+- [`config/strategy.json`](/Users/fabio/workspace/DOTA/config/strategy.json): default class priorities and lane/recall behavior
 - [`src/lib/game.js`](/Users/fabio/workspace/DOTA/src/lib/game.js): API + decision helpers
 - [`.github/workflows/dota-agent.yml`](/Users/fabio/workspace/DOTA/.github/workflows/dota-agent.yml): scheduled GitHub Actions runner
 - [`.github/workflows/pages.yml`](/Users/fabio/workspace/DOTA/.github/workflows/pages.yml): GitHub Pages deployment for the dashboard

@@ -1,0 +1,27 @@
+{
+  "preferredHeroClass": "mage",
+  "laneFocus": "adaptive",
+  "recallHpThreshold": 0.5,
+  "meleeAbilityPriority": [
+    "divine_shield",
+    "fortitude",
+    "thorns",
+    "fury",
+    "cleave"
+  ],
+  "rangedAbilityPriority": [
+    "volley",
+    "critical_strike",
+    "bloodlust",
+    "fury",
+    "fortitude"
+  ],
+  "mageAbilityPriority": [
+    "fireball",
+    "tornado",
+    "fury",
+    "raise_skeleton",
+    "fortitude"
+  ],
+  "behavior": "Recall under 50 percent HP whenever ready. On respawn prefer the lane with fewer enemy heroes, then the lane the enemy is pushing hardest. During live play, rotate to a suffering lane if another lane is in worse condition."
+}

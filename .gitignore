@@ -1,5 +1,4 @@
 node_modules/
 config/credentials.json
 config/runtime.json
-config/strategy.json
 .DS_Store
