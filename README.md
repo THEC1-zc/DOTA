@@ -31,6 +31,8 @@ Important: GitHub Actions cron does not support 2-minute intervals. To compensat
 
 By default, active game discovery scans game slots in descending order (`10 9 8 ... 1`). You can override this with `DOTA_GAME_SCAN_ORDER` if you want to prefer a narrower range such as `5 4 3 2`.
 
+The scheduled workflow currently runs a longer session of 6 check-ins with 110 seconds between them, so the bot keeps playing with much smaller gaps.
+
 ### Repository secrets
 
 Add this secret in GitHub:

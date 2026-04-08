@@ -15,11 +15,13 @@ concurrency:
 jobs:
   play:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     env:
       DOTA_AGENT_NAME: THEC1-BOT
       DOTA_API_KEY: ${{ secrets.DOTA_API_KEY }}
       DOTA_STRATEGY_JSON: ${{ secrets.DOTA_STRATEGY_JSON }}
+      DOTA_SESSION_ITERATIONS: 6
+      DOTA_SESSION_SLEEP_SECONDS: 110
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -64,7 +66,7 @@ jobs:
 
       - name: Run bot session
         shell: bash
-        run: bash scripts/run-session.sh 3 110
+        run: bash scripts/run-session.sh "${DOTA_SESSION_ITERATIONS}" "${DOTA_SESSION_SLEEP_SECONDS}"
 
       - name: Build dashboard status
         shell: bash
