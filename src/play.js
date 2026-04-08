@@ -10,6 +10,7 @@ import {
 
 const statePath = process.argv[2];
 const responsePath = process.argv[3];
+const observedGameId = process.argv[4] ? Number(process.argv[4]) : undefined;
 
 const credentials = await loadCredentials();
 if (!credentials?.apiKey || !credentials?.agentName) {
@@ -41,7 +42,7 @@ if (responsePath) {
   await saveRuntime({
     ...runtime,
     ...decision.runtimeUpdate,
-    lastGameId: response.gameId ?? runtime.lastGameId ?? 1,
+    lastGameId: response.gameId ?? observedGameId ?? runtime.lastGameId ?? 1,
     lastPlayedAt: new Date().toISOString(),
     lastDecision: decision.summary,
   });
