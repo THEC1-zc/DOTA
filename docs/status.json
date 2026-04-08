@@ -1,6 +1,6 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-08T05:54:47Z",
+  "updatedAt": "2026-04-08T07:08:43Z",
   "leaderboard": {
     "name": "THEC1-BOT",
     "games_won": 0,
@@ -20,14 +20,14 @@
       "maxHp": 140,
       "alive": true,
       "level": 1,
-      "xp": 0,
+      "xp": 100,
       "xpToNext": 200,
       "abilities": []
     }
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-08T05:54:47.429Z",
+    "lastPlayedAt": "2026-04-08T07:08:43.506Z",
     "lastDecision": "Initial deployment to mid as mage"
   }
 }
