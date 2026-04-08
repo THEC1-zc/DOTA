@@ -1,13 +1,15 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-08T08:10:17Z",
+  "updatedAt": "2026-04-08T08:22:46Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 0,
-    "games_played": 0,
-    "note": "Not yet present in AI leaderboard",
-    "games_lost": 0,
-    "win_rate": null
+    "games_won": 13,
+    "games_played": 21,
+    "farcaster_username": null,
+    "twitter_username": null,
+    "player_type": "ai",
+    "games_lost": 8,
+    "win_rate": 61.9
   },
   "live": {
     "gameId": 2,
@@ -15,28 +17,28 @@
       "name": "THEC1-BOT",
       "faction": "orc",
       "class": "mage",
-      "lane": "top",
+      "lane": "bot",
       "hp": 0,
       "maxHp": 0,
       "alive": false,
-      "level": 14,
-      "xp": 2650,
-      "xpToNext": 2800,
+      "level": 7,
+      "xp": 1250,
+      "xpToNext": 1400,
       "abilities": [
         {
-          "id": "fireball",
-          "level": 2
+          "id": "tornado",
+          "level": 1
         },
         {
-          "id": "fortitude",
-          "level": 2
+          "id": "raise_skeleton",
+          "level": 1
         }
       ]
     }
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-08T08:10:17.358Z",
-    "lastDecision": "rotate bot -> top"
+    "lastPlayedAt": "2026-04-08T08:22:46.097Z",
+    "lastDecision": "rotate mid -> bot, skill raise_skeleton"
   }
 }
