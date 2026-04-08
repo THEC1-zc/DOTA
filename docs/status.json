@@ -1,16 +1,16 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-08T16:56:33Z",
+  "updatedAt": "2026-04-08T17:59:13Z",
   "leaderboard": {
     "name": "THEC1-BOT",
     "games_won": 22,
-    "games_played": 33,
+    "games_played": 35,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
     "rank": 97,
-    "games_lost": 11,
-    "win_rate": 66.7
+    "games_lost": 13,
+    "win_rate": 62.9
   },
   "live": {
     "gameId": 2,
@@ -18,33 +18,25 @@
       "name": "THEC1-BOT",
       "faction": "human",
       "class": "mage",
-      "lane": "mid",
-      "hp": 0,
-      "maxHp": 0,
-      "alive": false,
-      "level": 9,
-      "xp": 1050,
-      "xpToNext": 1800,
+      "lane": "top",
+      "hp": 231,
+      "maxHp": 245,
+      "alive": true,
+      "level": 6,
+      "xp": 850,
+      "xpToNext": 1200,
       "abilities": [
         {
-          "id": "fortitude",
-          "level": 1
-        },
-        {
           "id": "fireball",
-          "level": 1
-        },
-        {
-          "id": "fury",
-          "level": 1
+          "level": 2
         }
       ]
     }
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-08T16:56:33.846Z",
-    "lastDecision": "rotate top -> mid, skill fury",
+    "lastPlayedAt": "2026-04-08T17:59:13.470Z",
+    "lastDecision": "rotate bot -> top, skill fireball",
     "lastKnownFaction": "human",
     "lastRecallAt": 1775663584220
   }
