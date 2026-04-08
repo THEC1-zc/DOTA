@@ -8,6 +8,7 @@ STATUS_FILE="$DOCS_DIR/status.json"
 PREVIOUS_STATUS_FILE="${TMPDIR:-/tmp}/dota-status-previous.json"
 AGENT_NAME="$(jq -r '.agentName' "$CONFIG_DIR/credentials.json")"
 GAME_ID="$(jq -r '.lastGameId // empty' "$CONFIG_DIR/runtime.json" 2>/dev/null || true)"
+GAME_SCAN_ORDER="${DOTA_GAME_SCAN_ORDER:-10 9 8 7 6 5 4 3 2 1}"
 LEADERBOARD_FILE="$(mktemp)"
 STATE_FILE="$(mktemp)"
 PREV_ACTIVE_STATE_FILE="$(mktemp)"
@@ -33,7 +34,7 @@ if [[ -n "$GAME_ID" ]]; then
 fi
 
 if [[ ! -s "$STATE_FILE" ]] || ! jq -e --arg name "$AGENT_NAME" 'type == "object" and (.heroes | type == "array") and any(.heroes[]?; .name == $name)' "$STATE_FILE" >/dev/null 2>&1; then
-  for candidate_game in 1 2 3 4 5 6 7 8 9 10; do
+  for candidate_game in $GAME_SCAN_ORDER; do
     curl -sS --max-time 20 "https://wc2-agentic-dev-3o6un.ondigitalocean.app/api/game/state?game=$candidate_game" > "$STATE_FILE" || true
     if jq -e --arg name "$AGENT_NAME" 'type == "object" and (.heroes | type == "array") and any(.heroes[]?; .name == $name)' "$STATE_FILE" >/dev/null 2>&1; then
       GAME_ID="$candidate_game"

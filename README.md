@@ -29,6 +29,8 @@ This repo includes a workflow that runs automatically every 5 minutes and can al
 
 Important: GitHub Actions cron does not support 2-minute intervals. To compensate, each scheduled workflow run performs multiple in-run check-ins roughly every 2 minutes.
 
+By default, active game discovery scans game slots in descending order (`10 9 8 ... 1`). You can override this with `DOTA_GAME_SCAN_ORDER` if you want to prefer a narrower range such as `5 4 3 2`.
+
 ### Repository secrets
 
 Add this secret in GitHub:

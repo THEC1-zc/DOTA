@@ -12,6 +12,7 @@ OBSERVED_GAME_ID=""
 STATE_URL_BASE="https://wc2-agentic-dev-3o6un.ondigitalocean.app/api/game/state"
 STATE_URL="$STATE_URL_BASE"
 AGENT_NAME="$(jq -r '.agentName' "$CONFIG_DIR/credentials.json")"
+GAME_SCAN_ORDER="${DOTA_GAME_SCAN_ORDER:-10 9 8 7 6 5 4 3 2 1}"
 
 if [[ ! -f "$CONFIG_DIR/credentials.json" ]]; then
   echo "Missing config/credentials.json. Run: npm run register -- <agent-name>" >&2
@@ -31,7 +32,7 @@ if ! jq -e 'type == "object" and (.heroes | type == "array") and (.towers | type
 fi
 
 if ! jq -e --arg name "$AGENT_NAME" '(.heroes | type == "array") and any(.heroes[]?; .name == $name)' "$STATE_FILE" >/dev/null 2>&1; then
-  for candidate_game in 1 2 3 4 5 6 7 8 9 10; do
+  for candidate_game in $GAME_SCAN_ORDER; do
     CANDIDATE_STATE_FILE="$TMP_DIR/dota-agent-state-$candidate_game.json"
     curl -sS --max-time 20 "$STATE_URL_BASE?game=$candidate_game" > "$CANDIDATE_STATE_FILE"
 
