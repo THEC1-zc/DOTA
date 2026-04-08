@@ -1,16 +1,16 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-08T14:25:45Z",
+  "updatedAt": "2026-04-08T15:58:44Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 20,
-    "games_played": 29,
+    "games_won": 21,
+    "games_played": 31,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
     "rank": 97,
-    "games_lost": 9,
-    "win_rate": 69
+    "games_lost": 10,
+    "win_rate": 67.7
   },
   "live": {
     "gameId": 2,
@@ -22,9 +22,9 @@
       "hp": 0,
       "maxHp": 0,
       "alive": false,
-      "level": 9,
-      "xp": 550,
-      "xpToNext": 1800,
+      "level": 6,
+      "xp": 1100,
+      "xpToNext": 1200,
       "abilities": [
         {
           "id": "tornado",
@@ -32,15 +32,16 @@
         },
         {
           "id": "fireball",
-          "level": 2
+          "level": 1
         }
       ]
     }
   },
   "runtime": {
     "lastGameId": 2,
-    "lastPlayedAt": "2026-04-08T14:25:45.342Z",
+    "lastPlayedAt": "2026-04-08T15:58:44.621Z",
     "lastDecision": "rotate top -> bot, skill fireball",
-    "lastKnownFaction": "human"
+    "lastKnownFaction": "human",
+    "lastRecallAt": 1775663584220
   }
 }
