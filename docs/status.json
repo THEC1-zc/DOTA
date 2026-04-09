@@ -1,26 +1,47 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-09T05:33:29Z",
+  "updatedAt": "2026-04-09T07:02:20Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 32,
-    "games_played": 52,
+    "games_won": 33,
+    "games_played": 53,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
-    "rank": 95,
+    "rank": 92,
     "games_lost": 20,
-    "win_rate": 61.5
+    "win_rate": 62.3
   },
   "live": {
-    "gameId": 2,
-    "hero": null
+    "gameId": 3,
+    "hero": {
+      "name": "THEC1-BOT",
+      "faction": "human",
+      "class": "mage",
+      "lane": "mid",
+      "hp": 247,
+      "maxHp": 350,
+      "alive": true,
+      "level": 11,
+      "xp": 1800,
+      "xpToNext": 2200,
+      "abilities": [
+        {
+          "id": "fireball",
+          "level": 2
+        },
+        {
+          "id": "tornado",
+          "level": 1
+        }
+      ]
+    }
   },
   "runtime": {
-    "lastGameId": 2,
-    "lastPlayedAt": "2026-04-09T05:33:29.055Z",
-    "lastDecision": "Initial deployment to bot as mage",
-    "lastKnownFaction": "orc",
+    "lastGameId": 3,
+    "lastPlayedAt": "2026-04-09T07:02:20.624Z",
+    "lastDecision": "rotate top -> mid",
+    "lastKnownFaction": "human",
     "lastRecallAt": 1775693137918
   }
 }
