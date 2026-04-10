@@ -1,47 +1,47 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-10T05:48:59Z",
+  "updatedAt": "2026-04-10T07:18:32Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 49,
-    "games_played": 83,
+    "games_won": 50,
+    "games_played": 85,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
     "rank": 90,
-    "games_lost": 34,
-    "win_rate": 59
+    "games_lost": 35,
+    "win_rate": 58.8
   },
   "live": {
     "gameId": 3,
     "hero": {
       "name": "THEC1-BOT",
-      "faction": "orc",
+      "faction": "human",
       "class": "mage",
       "lane": "mid",
-      "hp": 329,
-      "maxHp": 329,
+      "hp": 24,
+      "maxHp": 287,
       "alive": true,
-      "level": 10,
-      "xp": 1500,
-      "xpToNext": 2000,
+      "level": 8,
+      "xp": 1350,
+      "xpToNext": 1600,
       "abilities": [
         {
-          "id": "tornado",
+          "id": "fury",
           "level": 1
         },
         {
-          "id": "fireball",
-          "level": 2
+          "id": "tornado",
+          "level": 1
         }
       ]
     }
   },
   "runtime": {
     "lastGameId": 3,
-    "lastPlayedAt": "2026-04-10T05:48:59.942Z",
-    "lastDecision": "rotate top -> mid, skill fireball",
-    "lastKnownFaction": "orc",
-    "lastRecallAt": 1775800026760
+    "lastPlayedAt": "2026-04-10T07:18:32.909Z",
+    "lastDecision": "Recall from bot with 49/287 HP",
+    "lastKnownFaction": "human",
+    "lastRecallAt": 1775805512909
   }
 }
