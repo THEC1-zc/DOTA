@@ -1,16 +1,16 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-11T08:08:45Z",
+  "updatedAt": "2026-04-11T09:02:08Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 66,
-    "games_played": 120,
+    "games_won": 68,
+    "games_played": 122,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
     "rank": 85,
     "games_lost": 54,
-    "win_rate": 55
+    "win_rate": 55.7
   },
   "live": {
     "gameId": 3,
@@ -19,32 +19,29 @@
       "faction": "human",
       "class": "mage",
       "lane": "top",
-      "hp": 371,
-      "maxHp": 371,
+      "hp": 266,
+      "maxHp": 266,
       "alive": true,
-      "level": 12,
-      "xp": 1700,
-      "xpToNext": 2400,
+      "level": 7,
+      "xp": 350,
+      "xpToNext": 1400,
       "abilities": [
         {
-          "id": "raise_skeleton",
-          "level": 1
-        },
-        {
-          "id": "fireball",
-          "level": 2
-        },
-        {
-          "id": "fury",
+          "id": "tornado",
           "level": 1
         }
+      ],
+      "abilityChoices": [
+        "fireball",
+        "fury",
+        "fortitude"
       ]
     }
   },
   "runtime": {
     "lastGameId": 3,
-    "lastPlayedAt": "2026-04-11T08:08:45.079Z",
-    "lastDecision": "rotate mid -> top, skill fireball",
+    "lastPlayedAt": "2026-04-11T09:02:08.175Z",
+    "lastDecision": "Initial deployment to top as mage",
     "lastKnownFaction": "human",
     "lastRecallAt": 1775894813429
   }
