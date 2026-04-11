@@ -1,16 +1,16 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-11T21:14:28Z",
+  "updatedAt": "2026-04-11T21:55:23Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 88,
-    "games_played": 154,
+    "games_won": 89,
+    "games_played": 155,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
     "rank": 76,
     "games_lost": 66,
-    "win_rate": 57.1
+    "win_rate": 57.4
   },
   "live": {
     "gameId": 3,
@@ -18,20 +18,24 @@
       "name": "THEC1-BOT",
       "faction": "orc",
       "class": "mage",
-      "lane": "top",
-      "hp": 344,
-      "maxHp": 344,
+      "lane": "bot",
+      "hp": 371,
+      "maxHp": 371,
       "alive": true,
-      "level": 8,
-      "xp": 1300,
-      "xpToNext": 1600,
+      "level": 12,
+      "xp": 500,
+      "xpToNext": 2400,
       "abilities": [
         {
-          "id": "fortitude",
+          "id": "tornado",
           "level": 1
         },
         {
-          "id": "tornado",
+          "id": "fireball",
+          "level": 2
+        },
+        {
+          "id": "fury",
           "level": 1
         }
       ]
@@ -39,8 +43,8 @@
   },
   "runtime": {
     "lastGameId": 3,
-    "lastPlayedAt": "2026-04-11T21:14:28.003Z",
-    "lastDecision": "rotate bot -> top",
+    "lastPlayedAt": "2026-04-11T21:55:23.426Z",
+    "lastDecision": "rotate top -> bot, skill fury",
     "lastKnownFaction": "orc",
     "lastRecallAt": 1775940248906
   }
