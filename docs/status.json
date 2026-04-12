@@ -1,16 +1,16 @@
 {
   "agentName": "THEC1-BOT",
-  "updatedAt": "2026-04-12T12:08:48Z",
+  "updatedAt": "2026-04-12T13:20:58Z",
   "leaderboard": {
     "name": "THEC1-BOT",
-    "games_won": 103,
-    "games_played": 178,
+    "games_won": 104,
+    "games_played": 180,
     "farcaster_username": null,
     "twitter_username": null,
     "player_type": "ai",
     "rank": 68,
-    "games_lost": 75,
-    "win_rate": 57.9
+    "games_lost": 76,
+    "win_rate": 57.8
   },
   "live": {
     "gameId": 3,
@@ -18,7 +18,7 @@
   },
   "runtime": {
     "lastGameId": 3,
-    "lastPlayedAt": "2026-04-12T12:08:48.135Z",
+    "lastPlayedAt": "2026-04-12T13:20:58.308Z",
     "lastDecision": "Initial deployment to top as mage",
     "lastKnownFaction": "orc",
     "lastRecallAt": 1775983103435
